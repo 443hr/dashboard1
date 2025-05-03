@@ -1,0 +1,14 @@
+Flask
+Flask-SQLAlchemy
+Werkzeug
+numpy
+pandas
+pyodbc
+seaborn
+streamlit
+gunicorn
+openpyxl
+plotly
+python-dotenv
+azure-storage-blob
+

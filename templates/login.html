@@ -1,0 +1,95 @@
+<!-- templates/login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | RMIT Data Management Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div id="globalBar">
+	<div id="logo">
+		<img src="{{ url_for('static', filename='images/RMIT-on-navy.jpg') }}" alt="RMIT University" class="rmit-logo">
+	</div>
+<br style="clear: both">
+</div>
+
+    <div class="page-container">
+        <div class="form-container">
+            <!-- <div class="logo-container">
+                <img src="{{ url_for('static', filename='images/rmit-logo.png') }}" alt="RMIT University" class="rmit-logo">
+            </div> -->
+            
+            <div class="form-header">
+                <h1>Welcome Back</h1>
+                <p>Sign in to continue to the RMIT Data Management Platform</p>
+            </div>
+            
+            <!-- Flash messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {% if category == 'success' %}
+                                <i class="fas fa-check-circle"></i>
+                            {% elif category == 'error' %}
+                                <i class="fas fa-exclamation-circle"></i>
+                            {% else %}
+                                <i class="fas fa-info-circle"></i>
+                            {% endif %}
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <form method="POST" action="{{ url_for('login') }}" class="login-form">
+                <div class="input-group">
+                    <label for="username">
+                        <i class="fas fa-user"></i>
+                    </label>
+                    <input type="text" id="username" name="username" placeholder="Username" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="password">
+                        <i class="fas fa-lock"></i>
+                    </label>
+                    <input type="password" id="password" name="password" placeholder="Password" required>
+                </div>
+                
+                <div class="remember-forgot">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember" name="remember">
+                        <label for="remember">Remember me</label>
+                    </div>
+                 </div>
+                
+                <button type="submit" class="login-button">
+                    <span>Sign In</span>
+                    <i class="fas fa-sign-in-alt"></i>
+                </button>
+            </form>
+            
+                       
+            
+        </div>
+        
+        <div class="illustration">
+            <div class="illustration-content">
+                <h2>RMIT University</h2>
+                <h3>Data Management Platform</h3>
+                <p>Upload, analyze, and visualize your data with our powerful tools.</p>
+                <div class="illustration-image"></div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 RMIT University. All rights reserved.</p>
+    </footer>
+</body>
+</html>
