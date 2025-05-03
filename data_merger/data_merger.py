@@ -16,7 +16,7 @@ class data_merger:
         merged['Enrollment_status'] = merged['application_status'].apply(
                 lambda x: 'Not Enrolled' if x != 'Active' else 'Enrolled'
                                     )
-        c_data = pd.read_csv('/Volumes/RMIT /project/course_data/course_data.csv', encoding='latin1', usecols=['Program Plan', 'CRICOS Code'])
+        c_data = pd.read_csv('course_data/course_data.csv', encoding='latin1', usecols=['Program Plan', 'CRICOS Code'])
 
         merged['cricos_code'] = merged['plan_code'].apply( lambda x: c_data[c_data['Program Plan'] == x]['CRICOS Code'].values[0] if x in c_data['Program Plan'].values else None)
         # Filter out rows where 'program_code' is in the specified list
