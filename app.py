@@ -1,9 +1,6 @@
-# app.py
-
-# Import necessary modules for web app, security, database, file handling
 import io
 import os
-import sys
+import traceback
 import pandas as pd
 from flask import Flask, send_file, render_template, request, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
@@ -18,7 +15,6 @@ from data_cleaner.data_cleaner import data_cleaner
 # Load environment variables
 load_dotenv()
 
-# Initialize Flask app and configure database
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(24)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
@@ -30,7 +26,6 @@ ALLOWED_EXTENSIONS = {'excel': ['xlsx', 'xls', 'xlsm', 'xlsb']}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MERGED_FOLDER'] = MERGED_FOLDER
 
-# Initialize database
 db = SQLAlchemy(app)
 
 # User model
@@ -50,7 +45,6 @@ class User(db.Model):
 with app.app_context():
     db.create_all()
 
-# Helper function to check allowed file extensions
 def allowed_file(filename, file_type):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS.get(file_type, [])
 
@@ -165,8 +159,10 @@ def upload_files():
 
     if len(uploaded_files) == 2 and not error_messages:
         try:
+            print("Starting data cleaning and merging")
             d_clean = data_cleaner(excel_file_1, excel_file_2)
             d1, d2 = d_clean.data_cleaner_fun()
+
             um_data = data_merger(d1, d2)
             m_data = um_data.data_merger_to_one()
 
@@ -175,16 +171,15 @@ def upload_files():
                 m_data.to_excel(writer, index=False)
             output.seek(0)
 
-            
             upload_to_blob(output.getvalue(), "merged_data.xlsx")
 
-            # Upload to Azure Blob Storage
-    
             session['merged_ready'] = True
             flash("Files merged successfully! You can now go to dashboard or download the file.", "success")
             return redirect(url_for('data_upload'))
 
         except Exception as e:
+            print(" ERROR DURING MERGE:")
+            traceback.print_exc()
             error_messages.append(f"Error in data merging process: {str(e)}")
 
     if not uploaded_files and not error_messages:
@@ -217,19 +212,19 @@ def download_merged_file():
             download_name=blob_name
         )
     except Exception as e:
+        print("ERROR DURING FILE DOWNLOAD:")
+        traceback.print_exc()
         flash(f"Error downloading file: {str(e)}", 'error')
         return redirect(url_for('data_upload'))
-
 
 @app.route('/dashboard')
 def dashboard():
     if 'username' in session:
-        return redirect("https://your-streamlit-app.azurewebsites.net")  # Replace with your deployed Streamlit URL
+        return redirect("https://your-streamlit-app.azurewebsites.net")  # Replace with real dashboard URL
     else:
         flash("Session expired. Please login again.", "error")
         return redirect(url_for('login'))
 
-# Upload merged data to Azure Blob Storage
 def upload_to_blob(file_bytes, blob_name):
     connection_string = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
     container_name = os.getenv("AZURE_BLOB_CONTAINER")
@@ -240,12 +235,10 @@ def upload_to_blob(file_bytes, blob_name):
     try:
         container_client.create_container()
     except Exception:
-        pass  # Container probably already exists
+        pass  # Container already exists
 
     container_client.upload_blob(name=blob_name, data=file_bytes, overwrite=True)
-    print(f" Uploaded {blob_name} to Azure Blob Storage.")
+    print(f"Uploaded {blob_name} to Azure Blob Storage.")
 
-
-# Start the Flask server
 if __name__ == '__main__':
     app.run(debug=True)
