@@ -217,13 +217,22 @@ def download_merged_file():
         flash(f"Error downloading file: {str(e)}", 'error')
         return redirect(url_for('data_upload'))
 
-@app.route('/dashboard')
-def dashboard():
+@app.route('/dashboard_view')
+def dashboard_view():
     if 'username' in session:
-        return redirect("https://your-streamlit-app.azurewebsites.net")  # Replace with real dashboard URL
+        return redirect("https://dashboard1-e6a9adfqfzd7gre5.australiasoutheast-01.azurewebsites.net")
     else:
         flash("Session expired. Please login again.", "error")
         return redirect(url_for('login'))
+
+@app.route('/dashboard_summary')
+def dashboard_summary():
+    if 'username' in session:
+        return redirect("https://dashboard2-xyz123.azurewebsites.net")  # Replace with actual second dashboard URL
+    else:
+        flash("Session expired. Please login again.", "error")
+        return redirect(url_for('login'))
+
 
 def upload_to_blob(file_bytes, blob_name):
     connection_string = os.environ.get("AZURE_STORAGE_CONNECTION_STRING")
