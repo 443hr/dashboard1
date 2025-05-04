@@ -217,8 +217,8 @@ def download_merged_file():
         flash(f"Error downloading file: {str(e)}", 'error')
         return redirect(url_for('data_upload'))
 
-@app.route('/dashboard_view')
-def dashboard_view():
+@app.route('/dashboard')
+def dashboard():
     if 'username' in session:
         return redirect("https://dashboard1-e6a9adfqfzd7gre5.australiasoutheast-01.azurewebsites.net")
     else:
