@@ -226,8 +226,8 @@ def dashboard():
         return redirect(url_for('login'))
 
 def upload_to_blob(file_bytes, blob_name):
-    connection_string = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
-    container_name = os.getenv("AZURE_BLOB_CONTAINER")
+    connection_string = os.environ.get("AZURE_STORAGE_CONNECTION_STRING")
+    container_name = os.environ.get("AZURE_BLOB_CONTAINER")
 
     blob_service = BlobServiceClient.from_connection_string(connection_string)
     container_client = blob_service.get_container_client(container_name)
