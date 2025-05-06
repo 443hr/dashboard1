@@ -11,4 +11,5 @@ openpyxl
 plotly
 python-dotenv
 azure-storage-blob
+xlrd
 
