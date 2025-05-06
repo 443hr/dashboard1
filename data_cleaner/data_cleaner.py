@@ -7,7 +7,7 @@ class data_cleaner:
         self.l2 = l2
 
     def data_cleaner_fun(self):
-        d1 = pd.read_excel(self.l1, skiprows=3)
+        d1 = pd.read_excel(self.l1)
         d2 = pd.read_excel(self.l2)
         
         column_drop = [
