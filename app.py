@@ -228,7 +228,7 @@ def dashboard():
 @app.route('/dashboard_summary')
 def dashboard_summary():
     if 'username' in session:
-        return redirect("https://dashboard2-xyz123.azurewebsites.net")  # Replace with actual second dashboard URL
+        return redirect("dashboardrmit2-g3e5ggagh9ddh2cv.australiasoutheast-01.azurewebsites.net")  # Replace with actual second dashboard URL
     else:
         flash("Session expired. Please login again.", "error")
         return redirect(url_for('login'))
