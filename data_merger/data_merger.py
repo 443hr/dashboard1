@@ -10,7 +10,7 @@ class data_merger:
         d2 = self.data2
 
         # Merge main data on student details
-        merged = pd.merge(d1, d2, on=['student_id', 'gender', 'date_of_birth'], how='outer')
+        merged = pd.merge(d1, d2, on=['student_id'], how='outer')
 
         # Add enrollment status
         merged['Enrollment_status'] = merged['application_status'].apply(
