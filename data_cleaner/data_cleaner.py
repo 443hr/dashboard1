@@ -20,7 +20,7 @@ class data_cleaner:
             "Course Language", "Duration In Weeks", "Current Total Course Fee", "Immigration Post",
             "Email Address", "Mobile", "Phone", "Student Address Line 1", "Student Address Line 2",
             "Student Address Line 3", "Student Address Line 4", "Student Address Locality",
-            "Student Address State", "Student Address Country", "Student Address Post Code"
+            "Student Address State", "Student Address Country", "Student Address Post Code","applicant_id"
         ]
 
         # Drop columns only if they exist
