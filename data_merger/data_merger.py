@@ -14,7 +14,7 @@ class data_merger:
 
         # Add enrollment status
         merged['Enrollment_status'] = merged['application_status'].apply(
-            lambda x: 'Not Enrolled' if x != 'Active' else 'Enrolled'
+            lambda x: 'Not Enrolled' if x != 'Active with EFTSL' else 'Enrolled'
         )
 
         # Load course data
